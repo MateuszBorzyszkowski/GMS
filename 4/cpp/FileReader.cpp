@@ -62,10 +62,12 @@ void FileReader::algorithm() {
 }
 
 void FileReader::compare() {
-    bool success = false;
     for (int i = 0; i < numberOfTests; i++) {
-        //cout << tableFromFile[i] << " = " << tableWithWeight[i] << endl;
-        if (tableFromFile[i] == tableWithWeight[i]) success = true;
+        cout << tableFromFile[i] << " = " << tableWithWeight[i];
+        if (tableFromFile[i] == tableWithWeight[i]) {
+            cout << "\tPassed." << endl;
+        } else {
+            cout << "\tFailed." << endl;
+        }
     }
-    if (success) cout << "TEST PASSED." << endl;
 }
