@@ -7,7 +7,7 @@ int main()
 {
     FileReader fileReader;
 
-    fileReader.algorithm();
+    fileReader.kruskal();
     fileReader.compare();
 
     return 0;

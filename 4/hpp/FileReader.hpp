@@ -4,8 +4,8 @@
 
 #include <iostream>
 #include <fstream>
-#include "MSTree.hpp"
-#include "DSNode.hpp"
+#include "MinSpanningTree.hpp"
+#include "DisjointSets.hpp"
 
 using namespace std;
 
@@ -13,14 +13,14 @@ class FileReader {
 protected:
     ifstream file;
     ifstream score;
-    int numberOfVertices, numberOfEdges;                        // Liczba wierzchołków i krawędzi
-    Edge edge;
+    int numberOfVertices, numberOfEdges;
+    EdgeQueue edge;
     int numberOfTests;
     char sign;
     int  *tableFromFile, *tableWithWeight;
 public:
     FileReader();
     ~FileReader();
-    void algorithm();
+    void kruskal();
     void compare();
 };

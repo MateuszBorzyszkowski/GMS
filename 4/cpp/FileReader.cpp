@@ -17,7 +17,7 @@ FileReader::~FileReader() {
     delete [] tableWithWeight;
 }
 
-void FileReader::algorithm() {
+void FileReader::kruskal() {
     file >> numberOfTests;
 
     tableFromFile = new int [numberOfTests];
@@ -28,36 +28,33 @@ void FileReader::algorithm() {
     }
 
     for (int j = 0; j < numberOfTests ; j++) {
-        file >> sign >> sign >> numberOfVertices >> sign >> sign >> sign >> numberOfEdges;      // Czytamy liczbę wierzchołków i krawędzi
+        file >> sign >> sign >> numberOfVertices >> sign >> sign >> sign >> numberOfEdges;
 
-        DSStruct Z(numberOfVertices);                  // Struktura zbiorów rozłącznych
-        Queue Q(numberOfEdges);                     // Kolejka priorytetowa oparta na kopcu
-        MSTree T(numberOfVertices);                    // Minimalne drzewo rozpinające
+        DSSruct dsSruct(numberOfVertices);                                                              // Struktura zbiorów rozłącznych
+        Queue queue(numberOfEdges);                                                                     // Kolejka priorytetowa oparta na kopcu
+        MinSpanningTree tree(numberOfVertices);                                                         // Minimalne drzewo rozpinające
 
         for(int i = 0; i < numberOfVertices; i++)
-            Z.MakeSet(i);                 // Dla każdego wierzchołka tworzymy osobny zbiór
+            dsSruct.CreateSet(i);                                                                       // Dla każdego wierzchołka tworzymy osobny zbiór
 
         for(int i = 0; i < numberOfEdges; i++)
         {
-            file >> sign >> edge.v1 >> sign >> edge.v2 >> sign >> edge.weight; // Odczytujemy kolejne krawędzie grafu
-            Q.push(edge);                    // i umieszczamy je w kolejce priorytetowej
+            file >> sign >> edge.v1 >> sign >> edge.v2 >> sign >> edge.weight;                          // Odczytujemy kolejne krawędzie grafu
+            queue.push(edge);                                                                           // i umieszczamy je w kolejce priorytetowej
         }
 
-        for(int i = 1; i < numberOfVertices; i++)          // Pętla wykonuje się numberOfVertices - 1 razy !!!
+        for(int i = 1; i < numberOfVertices; i++)                                                       // Pętla wykonuje się liczba wierzchołków-1 razy
         {
             do
             {
-                edge = Q.front();              // Pobieramy z kolejki krawędź
-                Q.pop();                    // Krawędź usuwamy z kolejki
-            } while(Z.FindSet(edge.v1) == Z.FindSet(edge.v2));
-            T.addEdge(edge);                 // Dodajemy krawędź do drzewa
-            Z.UnionSets(edge);               // Zbiory z wierzchołkami łączymy ze sobą
+                edge = queue.front();                                                                   // Bierzemy z kolejki krawędź
+                queue.pop();                                                                            // Krawędź usuwamy z kolejki
+            } while(dsSruct.FindSet(edge.v1) == dsSruct.FindSet(edge.v2));
+            tree.addEdge(edge);                                                                         // Dodajemy krawędź do drzewa
+            dsSruct.JoinSets(edge);                                                                     // Zbiory z wierzchołkami łączymy ze sobą
         }
 
-        // Wyświetlamy wyniki
-        tableWithWeight[j] = T.getWeight();
-        //T.print();
-
+        tableWithWeight[j] = tree.getWeight();
     }
 }
 
